@@ -1,7 +1,9 @@
 ############
 # Part 1   #
 ############
+import sys
 
+path = sys.argv[1] 
 
 class MelonType(object):
     """A species of melon at a melon farm."""
@@ -65,10 +67,10 @@ def print_pairing_info(melon_types):
     """Prints information about each melon type's pairings."""
 
     for melon in melon_types:
-        print(f'{melon.name} pairs well with')
+        print("{} pairs well with".format(melon.name))
 
         for pair in melon.pairings:
-            print(f'-{pair}')
+            print("-{}".format(pair))
 
     #OLDER CODE
     # for i in melon_types:
@@ -85,6 +87,7 @@ def make_melon_type_lookup(melon_types):
     melon_types = make_melon_types()
 
     for melon in melon_types:
+        #creating a dictionary
         melon_dict[melon.code] = melon
 
     return melon_dict
@@ -104,11 +107,6 @@ class Melon(object):
         self.harvester = harvester
 
     def is_sellable(self):
-
-        #The is_sellable method should return True or False based on whether 
-        # the melon is able to be sold. a melon is able to be sold if 
-        # both its shape and color ratings are greater than 5, 
-        #and it didn’t come from field 3
 
         if self.shape_rtg > 5 and self.color_rtg > 5 and self.field != 3:
             return True
@@ -166,14 +164,33 @@ def get_sellability_report(melons):
             print(f'(NOT SELLABLE)')
 
 
+def record_new_harvest():
+
+    harvested_melons = []
+    melons_by_id = make_melon_type_lookup(make_melon_types())
+
+    file = open(path)
+    i = 0
+
+    for line in file:
+
+        line = line.strip().split(" ")
+
+        shape_rtg = line[1]
+        color_rtg = line[3]
+        code = line[5]
+        harvester = line[8]
+        field = line[11]
+        i += 1
 
 
+        for key in melons_by_id:
 
+            if key == code:
+                harvested_melons.append(melons_by_id[key])
 
-
-
-
-
+    
+    return (harvested_melons)
 
 
 
